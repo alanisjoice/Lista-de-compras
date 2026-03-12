@@ -28,4 +28,9 @@ body{
     font-family: var(--fonte);
     background: #C0D6DF;
 background: linear-gradient(90deg,rgba(192, 214, 223, 1) 0%, rgba(219, 233, 238, 1) 50%, rgba(74, 111, 165, 1) 100%);
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+padding: 20px;
 }
