@@ -101,3 +101,26 @@ input.focus{
     outline: none;
     box-shadow: 0 0 0 3px rgba(68, 105, 228, 0.596);
 }
+
+.botoes{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top:20px ;
+}
+    
+button{
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: nome;
+    border-radius: var(--raio);
+    background-color: var(--cor-primaria-4);
+    color: var(--cor-preto);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+button.houver{
+    background-color: var(--cor-primaria-4);
+}
