@@ -99,5 +99,5 @@ input{
 input.focus{
     border-color: var(--cor-primaria-1);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(red, green, blue, alpha);
+    box-shadow: 0 0 0 3px rgba(68, 105, 228, 0.596);
 }
