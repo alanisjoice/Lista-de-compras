@@ -69,3 +69,12 @@ align-items: center;
 min-height: 100vh;
 padding: 20px;
 }
+
+.container{
+    background: var(--cor-branco);
+    padding: clamp(2rem,5vem,3rem);
+    border-radius: var(--raio);
+    box-shadow: 0 8px 24px var(--cor-sombra);
+    max-width: 400px;
+    text-align: 20px;
+}
