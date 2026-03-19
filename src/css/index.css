@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
 
+
 :root {
     --cor-primaria-1: #4F6D7A;
     --cor-primaria-2: #C0D6DF;
@@ -7,30 +8,74 @@
     --cor-primaria-4: #4A6FA5;
     --cor-bg: #166088;
 
-    --cor-branco:#fff;
-    --cor-preto:#1d1d1d;
-    --cor-sombra:rgba(0,0,0,0,15);
-    --cor-texto:#333;
+    --cor-branco: #fff;
+    --cor-preto: #1d1d1d;
+    --cor-sombra: rgba(0, 0, 0, 0, 15);
+    --cor-texto: #333;
 
     --fonte: "UnifrakturMaguntia", cursive;
 
-    --raio:12px
-    --trasition:0.3s ease;
+    --raio: 12px;
+    --trasition: 0.3s ease;
+
+
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     font-family: var(--fonte);
     background: #C0D6DF;
-background: linear-gradient(90deg,rgba(192, 214, 223, 1) 0%, rgba(219, 233, 238, 1) 50%, rgba(74, 111, 165, 1) 100%);
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-padding: 20px;
+    background: linear-gradient(90deg, rgba(192, 214, 223, 1) 0%, rgba(219, 233, 238, 1) 50%, rgba(74, 111, 165, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte);
+    background: #C0D6DF;
+    background: linear-gradient(90deg, rgba(192, 214, 223, 1) 0%, rgba(219, 233, 238, 1) 50%, rgba(74, 111, 165, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background: var(--cor-branco);
+    padding: clamp(2rem, 5vh, 3rem);
+    border-radius: var(--raio);
+    box-shadow: 0 8px 24px var(--cor-sombra);
+    max-width: 400px;
+    text-align: center;
+}
+
+#logo{
+    width:150px;
+    height:auto;
+    margin-bottom: 20px;
+    border-radius: var(--raio);
+}
+
+.titulo {
+    font-size: clamp(1.5rem 2vw + 1rem, 2rem);
+    color: var(--cor-texto);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
 }
