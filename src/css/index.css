@@ -80,7 +80,7 @@ body {
     font-weight: 500;
 }
 
-button[onclick="logot()"]{
+button[onclick="logout()"]{
     align-self: flex-end;
     margin-bottom:1.5rem;
     background-color: var(--cor-primaria-1);
