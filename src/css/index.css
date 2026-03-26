@@ -79,3 +79,19 @@ body {
     margin-bottom: 1.5rem;
     font-weight: 500;
 }
+
+button[onclick="logot()"]{
+    align-self: flex-end;
+    margin-bottom:1.5rem;
+    background-color: var(--cor-primaria-1);
+    color:var(--cor-branco);
+    padding:10px 16px;
+    border:none;
+    border-radius:var(--raio);
+    cursor:500;
+    transition: var(--trasition);
+}
+
+button[onclick="logout()"]:hover {
+    background-color: var(--cor-primaria-2);
+}
