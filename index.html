@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minha Lista de Compras</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/src/icons/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/src/icons/favicon.ico">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/src/icons/icon-512x512.png">
+    
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
@@ -13,14 +21,14 @@
     <!-- App Bar -->
     <header class="app-bar">
         <button class="menu-btn" onclick="toggleMenu()">
-            <i class="fas fa-user-circle"></i>
+            <img src="/src/icons/icon-512x512.png" alt="Menu" class="menu-avatar">
         </button>
         
         <div class="app-title-wrapper">
-            <h1 class="app-title">
-                <i class="fas fa-cart-shopping"></i>
-                Minha Lista
-            </h1>
+            <div class="app-logo">
+                <img src="/src/icons/icon-512x512.png" alt="Lista de Compras" class="app-logo-img">
+            </div>
+            <h1 class="app-title">Minha Lista</h1>
             <div class="connection-status" id="connectionStatus">
                 <span class="status-dot"></span>
                 <span class="status-text">Conectado</span>
@@ -41,7 +49,7 @@
     <div class="side-menu" id="sideMenu">
         <div class="menu-header">
             <div class="user-avatar" id="userAvatar">
-                <i class="fas fa-user"></i>
+                <img src="/src/icons/icon-512x512.png" alt="Avatar" class="avatar-img">
             </div>
             <div class="user-info">
                 <h3 id="userName">Usuário</h3>
@@ -133,7 +141,7 @@
         <!-- Lista de Compras -->
         <div class="list-container">
             <div class="empty-state" id="emptyState">
-                <i class="fas fa-cart-plus"></i>
+                <img src="/src/icons/icon-512x512.png" alt="Lista Vazia" class="empty-state-img">
                 <h3>Sua lista está vazia</h3>
                 <p>Adicione itens usando o campo abaixo</p>
             </div>
@@ -207,11 +215,6 @@
                     usuarioAtual = user;
                     document.getElementById('userEmail').textContent = user.email;
                     document.getElementById('userName').textContent = user.email.split('@')[0];
-                    
-                    // Avatar com iniciais
-                    const avatar = document.getElementById('userAvatar');
-                    const initials = user.email.substring(0, 2).toUpperCase();
-                    avatar.innerHTML = `<span class="avatar-text">${initials}</span>`;
                 }
             } catch (error) {
                 console.error('Erro ao carregar usuário:', error);
