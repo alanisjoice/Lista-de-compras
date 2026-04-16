@@ -358,4 +358,146 @@
                 const { error } = await supabase
                     .from('items')
                     .delete()
-                    .eq('id', id
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                mostrarToast('Item removido', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao remover:', error);
+                mostrarToast('Erro ao remover item', 'error');
+            }
+        };
+
+        // Editar item
+        window.editarItem = async function(id) {
+            const item = listaAtual.find(i => i.id === id);
+            if (!item) return;
+            
+            const novoNome = prompt('Editar item:', item.nome);
+            if (!novoNome || novoNome === item.nome) return;
+            
+            try {
+                const { error } = await supabase
+                    .from('items')
+                    .update({ nome: novoNome })
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                mostrarToast('Item atualizado', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao editar:', error);
+                mostrarToast('Erro ao editar item', 'error');
+            }
+        };
+
+        // Filtrar lista
+        window.filtrarLista = function(filtro) {
+            filtroAtual = filtro;
+            
+            // Atualizar botões
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.filter-btn').classList.add('active');
+            
+            renderizarLista();
+        };
+
+        // Adicionar sugestão
+        window.adicionarSugestao = function(item) {
+            document.getElementById('item').value = item;
+            adicionarItem();
+        };
+
+        // Compartilhar lista
+        window.compartilharLista = function() {
+            const texto = listaAtual
+                .map(item => `${item.comprado ? '✓' : '○'} ${item.nome}`)
+                .join('\n');
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Minha Lista de Compras',
+                    text: texto
+                });
+            } else {
+                navigator.clipboard?.writeText(texto);
+                mostrarToast('Lista copiada para a área de transferência!', 'success');
+            }
+        };
+
+        // Logout
+        window.logout = async function() {
+            if (confirm('Deseja sair da sua conta?')) {
+                await supabase.auth.signOut();
+                window.location.href = 'login.html';
+            }
+        };
+
+        // Toggle menu
+        window.toggleMenu = function() {
+            document.getElementById('sideMenu').classList.toggle('open');
+            document.getElementById('menuOverlay').classList.toggle('open');
+        };
+
+        // Funções do menu
+        window.mostrarCategorias = () => mostrarToast('Funcionalidade em desenvolvimento', 'info');
+        window.mostrarHistorico = () => mostrarToast('Funcionalidade em desenvolvimento', 'info');
+        window.mostrarConfiguracoes = () => mostrarToast('Funcionalidade em desenvolvimento', 'info');
+        window.mostrarAjuda = () => mostrarToast('Envie um email para suporte@listacompras.app', 'info');
+
+        // Toast notifications
+        function mostrarToast(mensagem, tipo = 'info') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+            
+            // Configurar ícone e cor
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            icon.className = `fas ${icons[tipo]}`;
+            toast.style.background = `var(--${tipo})`;
+            toastMessage.textContent = mensagem;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Service Worker
+        function configurarServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('SW registrado'))
+                    .catch(err => console.log('Erro SW:', err));
+            }
+        }
+
+        // Enter para adicionar
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.activeElement.id === 'item') {
+                adicionarItem();
+            }
+        });
+
+        // Fechar menu com ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('sideMenu').classList.remove('open');
+                document.getElementById('menuOverlay').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>
