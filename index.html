@@ -2,30 +2,31 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Minha Lista de Compras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Minha Lista de Compras • Moderna e Rápida</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/src/icons/favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="/src/icons/favicon.ico">
-    
-    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="/src/icons/icon-512x512.png">
     
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4F6D7A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
-    <!-- App Bar -->
-    <header class="app-bar">
-        <button class="menu-btn" onclick="toggleMenu()">
+    <!-- App Bar com Efeito Parallax -->
+    <header class="app-bar" id="appBar">
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
             <img src="/src/icons/icon-512x512.png" alt="Menu" class="menu-avatar">
+            <span class="ripple"></span>
         </button>
         
         <div class="app-title-wrapper">
-            <div class="app-logo">
+            <div class="app-logo floating-logo">
                 <img src="/src/icons/icon-512x512.png" alt="Lista de Compras" class="app-logo-img">
             </div>
             <h1 class="app-title">Minha Lista</h1>
@@ -36,16 +37,18 @@
         </div>
         
         <div class="app-actions">
-            <button class="action-btn" onclick="compartilharLista()" title="Compartilhar lista">
+            <button class="action-btn" onclick="compartilharLista()" title="Compartilhar lista" aria-label="Compartilhar">
                 <i class="fas fa-share-alt"></i>
+                <span class="ripple"></span>
             </button>
-            <button class="action-btn" onclick="logout()" title="Sair">
+            <button class="action-btn" onclick="logout()" title="Sair" aria-label="Sair">
                 <i class="fas fa-sign-out-alt"></i>
+                <span class="ripple"></span>
             </button>
         </div>
     </header>
 
-    <!-- Menu Lateral -->
+    <!-- Menu Lateral Aprimorado -->
     <div class="side-menu" id="sideMenu">
         <div class="menu-header">
             <div class="user-avatar" id="userAvatar">
@@ -61,18 +64,22 @@
             <button class="menu-item" onclick="mostrarCategorias()">
                 <i class="fas fa-tags"></i>
                 <span>Categorias</span>
+                <i class="fas fa-chevron-right menu-arrow"></i>
             </button>
             <button class="menu-item" onclick="mostrarHistorico()">
                 <i class="fas fa-history"></i>
                 <span>Histórico</span>
+                <i class="fas fa-chevron-right menu-arrow"></i>
             </button>
             <button class="menu-item" onclick="mostrarConfiguracoes()">
                 <i class="fas fa-cog"></i>
                 <span>Configurações</span>
+                <i class="fas fa-chevron-right menu-arrow"></i>
             </button>
             <button class="menu-item" onclick="mostrarAjuda()">
                 <i class="fas fa-question-circle"></i>
                 <span>Ajuda</span>
+                <i class="fas fa-chevron-right menu-arrow"></i>
             </button>
         </div>
         
@@ -84,14 +91,19 @@
         </div>
     </div>
 
-    <!-- Overlay do Menu -->
     <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
-    <!-- Conteúdo Principal -->
-    <main class="main-content">
-        <!-- Resumo da Lista -->
+    <!-- Pull-to-Refresh Indicator -->
+    <div class="pull-to-refresh" id="pullToRefresh">
+        <i class="fas fa-arrow-down"></i>
+        <span>Puxe para atualizar</span>
+    </div>
+
+    <!-- Conteúdo Principal com Scroll Suave -->
+    <main class="main-content" id="mainContent">
+        <!-- Resumo da Lista com Animação -->
         <div class="list-summary">
-            <div class="summary-card">
+            <div class="summary-card" data-delay="0">
                 <div class="summary-icon">
                     <i class="fas fa-list-check"></i>
                 </div>
@@ -101,7 +113,7 @@
                 </div>
             </div>
             
-            <div class="summary-card">
+            <div class="summary-card" data-delay="0.1">
                 <div class="summary-icon">
                     <i class="fas fa-circle-check"></i>
                 </div>
@@ -111,7 +123,7 @@
                 </div>
             </div>
             
-            <div class="summary-card">
+            <div class="summary-card" data-delay="0.2">
                 <div class="summary-icon">
                     <i class="fas fa-clock"></i>
                 </div>
@@ -122,92 +134,139 @@
             </div>
         </div>
 
-        <!-- Filtros Rápidos -->
+        <!-- Filtros com Swipe Support -->
         <div class="filter-section">
             <button class="filter-btn active" onclick="filtrarLista('todos')">
                 <i class="fas fa-list"></i>
-                Todos
+                <span>Todos</span>
             </button>
             <button class="filter-btn" onclick="filtrarLista('pendentes')">
                 <i class="fas fa-clock"></i>
-                Pendentes
+                <span>Pendentes</span>
             </button>
             <button class="filter-btn" onclick="filtrarLista('comprados')">
-                <i class="fas fa-check"></i>
-                Comprados
+                <i class="fas fa-check-circle"></i>
+                <span>Comprados</span>
             </button>
         </div>
 
-        <!-- Lista de Compras -->
-        <div class="list-container">
-            <div class="empty-state" id="emptyState">
-                <img src="/src/icons/icon-512x512.png" alt="Lista Vazia" class="empty-state-img">
-                <h3>Sua lista está vazia</h3>
-                <p>Adicione itens usando o campo abaixo</p>
+        <!-- Lista com Skeleton Loading -->
+        <div class="list-container" id="listContainer">
+            <div class="skeleton-loading" id="skeletonLoading">
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+            </div>
+            
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-animation">
+                    <i class="fas fa-shopping-basket"></i>
+                </div>
+                <h3>Lista vazia por enquanto</h3>
+                <p>Adicione itens com o botão + abaixo</p>
+                <button class="empty-state-btn" onclick="focusAddInput()">
+                    <i class="fas fa-plus-circle"></i> Adicionar primeiro item
+                </button>
             </div>
             
             <ul class="shopping-list" id="lista"></ul>
         </div>
     </main>
 
-    <!-- Barra de Adicionar Item (Fixada no rodapé) -->
-    <footer class="add-item-bar">
-        <div class="add-item-container">
+    <!-- Barra Flutuante de Adição (Redesign) -->
+    <div class="fab-container">
+        <div class="fab-menu" id="fabMenu">
+            <button class="fab-option" onclick="adicionarSugestao('Pão')">
+                <i class="fas fa-bread-slice"></i>
+            </button>
+            <button class="fab-option" onclick="adicionarSugestao('Leite')">
+                <i class="fas fa-milk"></i>
+            </button>
+            <button class="fab-option" onclick="adicionarSugestao('Ovos')">
+                <i class="fas fa-egg"></i>
+            </button>
+            <button class="fab-option" onclick="adicionarSugestao('Arroz')">
+                <i class="fas fa-wheat"></i>
+            </button>
+        </div>
+        
+        <div class="add-item-bar-mobile" id="addBar">
             <input 
                 type="text" 
                 id="item" 
-                class="add-item-input" 
-                placeholder="Adicionar novo item..."
+                class="add-item-input-mobile" 
+                placeholder="Digite um item..."
                 autocomplete="off"
             >
-            <button class="add-item-btn" onclick="adicionarItem()">
+            <button class="add-item-btn-mobile" onclick="adicionarItem()">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
         
-        <!-- Sugestões rápidas -->
-        <div class="quick-suggestions" id="quickSuggestions">
-            <button class="suggestion-chip" onclick="adicionarSugestao('Pão')">
-                <i class="fas fa-bread-slice"></i> Pão
+        <button class="fab-main" id="fabMain" onclick="toggleFab()">
+            <i class="fas fa-plus"></i>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Toast Aprimorado -->
+    <div class="toast-modern" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="toast-content">
+            <span id="toastMessage">Mensagem</span>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <!-- Bottom Sheet para Configurações Rápidas -->
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="bottom-sheet-header">
+            <div class="drag-handle"></div>
+        </div>
+        <div class="bottom-sheet-content" id="bottomSheetContent">
+            <h3>Opções Rápidas</h3>
+            <button onclick="alternarModoNoturno()">
+                <i class="fas fa-moon"></i> Modo Noturno
             </button>
-            <button class="suggestion-chip" onclick="adicionarSugestao('Leite')">
-                <i class="fas fa-milk"></i> Leite
+            <button onclick="ordenarLista()">
+                <i class="fas fa-sort-alpha-down"></i> Ordenar itens
             </button>
-            <button class="suggestion-chip" onclick="adicionarSugestao('Ovos')">
-                <i class="fas fa-egg"></i> Ovos
-            </button>
-            <button class="suggestion-chip" onclick="adicionarSugestao('Arroz')">
-                <i class="fas fa-wheat"></i> Arroz
+            <button onclick="limparComprados()">
+                <i class="fas fa-trash-alt"></i> Limpar comprados
             </button>
         </div>
-    </footer>
-
-    <!-- Toast de Notificação -->
-    <div class="toast" id="toast">
-        <i class="fas fa-info-circle"></i>
-        <span id="toastMessage">Mensagem</span>
     </div>
 
     <script type="module">
         import { supabase } from './supabaseClient.js';
 
-        // Configuração global
         window.supabase = supabase;
         
-        // Estado da aplicação
         let listaAtual = [];
         let filtroAtual = 'todos';
         let usuarioAtual = null;
+        let startY = 0;
+        let isRefreshing = false;
 
-        // Inicialização
+        // Inicialização com animações
         document.addEventListener('DOMContentLoaded', async () => {
             await carregarUsuario();
             await carregarLista();
             configurarRealtime();
             configurarServiceWorker();
+            configurarGestos();
+            configurarTecladoMobile();
+            verificarModoNoturno();
+            
+            // Animar cards de resumo
+            document.querySelectorAll('.summary-card').forEach((card, index) => {
+                card.style.animation = `fadeInUp 0.5s ease ${index * 0.1}s forwards`;
+                card.style.opacity = '0';
+            });
         });
 
-        // Carregar dados do usuário
         async function carregarUsuario() {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
@@ -221,8 +280,8 @@
             }
         }
 
-        // Carregar lista do Supabase
         async function carregarLista() {
+            mostrarSkeleton(true);
             try {
                 const { data, error } = await supabase
                     .from('items')
@@ -234,24 +293,29 @@
                 listaAtual = data || [];
                 renderizarLista();
                 atualizarResumo();
+                hapticFeedback('light');
             } catch (error) {
                 console.error('Erro ao carregar lista:', error);
                 mostrarToast('Erro ao carregar lista', 'error');
+            } finally {
+                mostrarSkeleton(false);
             }
         }
 
-        // Configurar Realtime
-        function configurarRealtime() {
-            supabase
-                .channel('items-changes')
-                .on('postgres_changes', 
-                    { event: '*', schema: 'public', table: 'items' },
-                    () => carregarLista()
-                )
-                .subscribe();
+        function mostrarSkeleton(show) {
+            const skeleton = document.getElementById('skeletonLoading');
+            const lista = document.getElementById('lista');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (show) {
+                skeleton.style.display = 'block';
+                lista.style.display = 'none';
+                emptyState.style.display = 'none';
+            } else {
+                skeleton.style.display = 'none';
+            }
         }
 
-        // Renderizar lista
         function renderizarLista() {
             const listaElement = document.getElementById('lista');
             const emptyState = document.getElementById('emptyState');
@@ -267,25 +331,29 @@
             if (itensFiltrados.length === 0) {
                 listaElement.style.display = 'none';
                 emptyState.style.display = 'block';
+                emptyState.style.animation = 'fadeIn 0.3s ease';
                 return;
             }
             
             listaElement.style.display = 'block';
             emptyState.style.display = 'none';
             
-            listaElement.innerHTML = itensFiltrados.map(item => `
-                <li class="list-item ${item.comprado ? 'checked' : ''}" data-id="${item.id}">
+            listaElement.innerHTML = itensFiltrados.map((item, index) => `
+                <li class="list-item ${item.comprado ? 'checked' : ''}" 
+                    data-id="${item.id}"
+                    style="animation: slideInRight 0.3s ease ${index * 0.05}s backwards">
+                    
                     <button class="item-checkbox" onclick="toggleItem('${item.id}')">
                         <i class="fas ${item.comprado ? 'fa-check-circle' : 'fa-circle'}"></i>
                     </button>
                     
-                    <span class="item-text">${item.nome}</span>
+                    <span class="item-text">${escapeHtml(item.nome)}</span>
                     
                     <div class="item-actions">
-                        <button class="item-action-btn" onclick="editarItem('${item.id}')" title="Editar">
+                        <button class="item-action-btn edit" onclick="editarItem('${item.id}')">
                             <i class="fas fa-pen"></i>
                         </button>
-                        <button class="item-action-btn delete" onclick="removerItem('${item.id}')" title="Remover">
+                        <button class="item-action-btn delete" onclick="removerItem('${item.id}')">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -293,24 +361,56 @@
             `).join('');
         }
 
-        // Atualizar resumo
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         function atualizarResumo() {
             const total = listaAtual.length;
             const comprados = listaAtual.filter(item => item.comprado).length;
             const pendentes = total - comprados;
             
-            document.getElementById('totalItems').textContent = total;
-            document.getElementById('checkedItems').textContent = comprados;
-            document.getElementById('pendingItems').textContent = pendentes;
+            animateValue('totalItems', total);
+            animateValue('checkedItems', comprados);
+            animateValue('pendingItems', pendentes);
         }
 
-        // Adicionar item
+        function animateValue(elementId, newValue) {
+            const element = document.getElementById(elementId);
+            const oldValue = parseInt(element.textContent);
+            if (oldValue === newValue) return;
+            
+            let start = oldValue;
+            const end = newValue;
+            const duration = 300;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(start + (end - start) * easeOutCubic(progress));
+                element.textContent = current;
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        function easeOutCubic(x) {
+            return 1 - Math.pow(1 - x, 3);
+        }
+
         window.adicionarItem = async function() {
             const input = document.getElementById('item');
             const nome = input.value.trim();
             
             if (!nome) {
                 mostrarToast('Digite um item para adicionar', 'warning');
+                hapticFeedback('warning');
                 return;
             }
             
@@ -326,18 +426,29 @@
                 if (error) throw error;
                 
                 input.value = '';
-                mostrarToast('Item adicionado com sucesso!', 'success');
+                mostrarToast('Item adicionado! ✨', 'success');
+                hapticFeedback('success');
+                fecharFab();
                 
             } catch (error) {
                 console.error('Erro ao adicionar:', error);
                 mostrarToast('Erro ao adicionar item', 'error');
+                hapticFeedback('error');
             }
         };
 
-        // Toggle item
         window.toggleItem = async function(id) {
             const item = listaAtual.find(i => i.id === id);
             if (!item) return;
+            
+            // Animação de clique
+            const element = document.querySelector(`.list-item[data-id="${id}"]`);
+            if (element) {
+                element.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    element.style.transform = '';
+                }, 150);
+            }
             
             try {
                 const { error } = await supabase
@@ -347,15 +458,24 @@
                 
                 if (error) throw error;
                 
+                hapticFeedback('light');
+                
             } catch (error) {
                 console.error('Erro ao atualizar:', error);
                 mostrarToast('Erro ao atualizar item', 'error');
             }
         };
 
-        // Remover item
         window.removerItem = async function(id) {
-            if (!confirm('Deseja remover este item?')) return;
+            const element = document.querySelector(`.list-item[data-id="${id}"]`);
+            
+            // Animação de saída
+            if (element) {
+                element.style.animation = 'slideOutLeft 0.3s ease forwards';
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+            
+            if (!confirm('Remover este item?')) return;
             
             try {
                 const { error } = await supabase
@@ -365,7 +485,8 @@
                 
                 if (error) throw error;
                 
-                mostrarToast('Item removido', 'success');
+                mostrarToast('Item removido', 'info');
+                hapticFeedback('light');
                 
             } catch (error) {
                 console.error('Erro ao remover:', error);
@@ -373,7 +494,6 @@
             }
         };
 
-        // Editar item
         window.editarItem = async function(id) {
             const item = listaAtual.find(i => i.id === id);
             if (!item) return;
@@ -390,6 +510,7 @@
                 if (error) throw error;
                 
                 mostrarToast('Item atualizado', 'success');
+                hapticFeedback('light');
                 
             } catch (error) {
                 console.error('Erro ao editar:', error);
@@ -397,26 +518,126 @@
             }
         };
 
-        // Filtrar lista
         window.filtrarLista = function(filtro) {
             filtroAtual = filtro;
             
-            // Atualizar botões
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.closest('.filter-btn').classList.add('active');
             
             renderizarLista();
+            hapticFeedback('light');
         };
 
-        // Adicionar sugestão
+        // Gestos e interações mobile
+        function configurarGestos() {
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeDistance = touchEndX - touchStartX;
+                if (Math.abs(swipeDistance) > 100) {
+                    if (swipeDistance > 0) {
+                        // Swipe direita - abrir menu
+                        toggleMenu();
+                    } else {
+                        // Swipe esquerda - fechar menu
+                        document.getElementById('sideMenu').classList.remove('open');
+                        document.getElementById('menuOverlay').classList.remove('open');
+                    }
+                }
+            }
+            
+            // Pull to refresh
+            const mainContent = document.getElementById('mainContent');
+            let startY = 0;
+            
+            mainContent.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+            });
+            
+            mainContent.addEventListener('touchmove', (e) => {
+                const currentY = e.touches[0].clientY;
+                const scrollTop = mainContent.scrollTop;
+                
+                if (scrollTop === 0 && currentY > startY + 50 && !isRefreshing) {
+                    e.preventDefault();
+                    iniciarRefresh();
+                }
+            });
+        }
+        
+        async function iniciarRefresh() {
+            if (isRefreshing) return;
+            isRefreshing = true;
+            
+            const pullToRefresh = document.getElementById('pullToRefresh');
+            pullToRefresh.classList.add('active');
+            
+            await carregarLista();
+            
+            setTimeout(() => {
+                pullToRefresh.classList.remove('active');
+                isRefreshing = false;
+                mostrarToast('Lista atualizada!', 'success');
+            }, 1000);
+        }
+
+        function configurarTecladoMobile() {
+            const input = document.getElementById('item');
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    adicionarItem();
+                }
+            });
+        }
+
+        // FAB Menu
+        window.toggleFab = function() {
+            const fabMenu = document.getElementById('fabMenu');
+            const fabMain = document.getElementById('fabMain');
+            const addBar = document.getElementById('addBar');
+            
+            fabMenu.classList.toggle('active');
+            fabMain.classList.toggle('active');
+            addBar.classList.toggle('active');
+            
+            if (addBar.classList.contains('active')) {
+                document.getElementById('item').focus();
+            }
+        };
+        
+        function fecharFab() {
+            const fabMenu = document.getElementById('fabMenu');
+            const fabMain = document.getElementById('fabMain');
+            const addBar = document.getElementById('addBar');
+            
+            fabMenu.classList.remove('active');
+            fabMain.classList.remove('active');
+            addBar.classList.remove('active');
+        }
+        
+        window.focusAddInput = function() {
+            toggleFab();
+        };
+
         window.adicionarSugestao = function(item) {
             document.getElementById('item').value = item;
             adicionarItem();
+            fecharFab();
         };
 
-        // Compartilhar lista
         window.compartilharLista = function() {
             const texto = listaAtual
                 .map(item => `${item.comprado ? '✓' : '○'} ${item.nome}`)
@@ -426,14 +647,43 @@
                 navigator.share({
                     title: 'Minha Lista de Compras',
                     text: texto
-                });
+                }).catch(() => {});
             } else {
                 navigator.clipboard?.writeText(texto);
-                mostrarToast('Lista copiada para a área de transferência!', 'success');
+                mostrarToast('Lista copiada! 📋', 'success');
             }
         };
 
-        // Logout
+        function alternarModoNoturno() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            mostrarToast(isDark ? 'Modo noturno ativado 🌙' : 'Modo claro ativado ☀️', 'info');
+        }
+        
+        function verificarModoNoturno() {
+            const savedMode = localStorage.getItem('darkMode');
+            if (savedMode === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        
+        function ordenarLista() {
+            listaAtual.sort((a, b) => a.nome.localeCompare(b.nome));
+            renderizarLista();
+            mostrarToast('Lista ordenada! 🔤', 'success');
+        }
+        
+        function limparComprados() {
+            if (confirm('Remover todos os itens comprados?')) {
+                const comprados = listaAtual.filter(item => item.comprado);
+                comprados.forEach(async (item) => {
+                    await supabase.from('items').delete().eq('id', item.id);
+                });
+                mostrarToast('Itens comprados removidos!', 'success');
+            }
+        }
+
         window.logout = async function() {
             if (confirm('Deseja sair da sua conta?')) {
                 await supabase.auth.signOut();
@@ -441,25 +691,35 @@
             }
         };
 
-        // Toggle menu
         window.toggleMenu = function() {
             document.getElementById('sideMenu').classList.toggle('open');
             document.getElementById('menuOverlay').classList.toggle('open');
         };
 
-        // Funções do menu
+        function mostrarBottomSheet() {
+            const sheet = document.getElementById('bottomSheet');
+            sheet.classList.add('open');
+        }
+
         window.mostrarCategorias = () => mostrarToast('Funcionalidade em desenvolvimento', 'info');
         window.mostrarHistorico = () => mostrarToast('Funcionalidade em desenvolvimento', 'info');
-        window.mostrarConfiguracoes = () => mostrarToast('Funcionalidade em desenvolvimento', 'info');
-        window.mostrarAjuda = () => mostrarToast('Envie um email para suporte@listacompras.app', 'info');
+        window.mostrarConfiguracoes = () => mostrarBottomSheet();
+        window.mostrarAjuda = () => mostrarToast('help@listacompras.app', 'info');
 
-        // Toast notifications
+        function hapticFeedback(type = 'light') {
+            if (window.navigator && window.navigator.vibrate) {
+                if (type === 'light') window.navigator.vibrate(10);
+                if (type === 'success') window.navigator.vibrate([10, 30, 10]);
+                if (type === 'error') window.navigator.vibrate([50, 30, 50]);
+                if (type === 'warning') window.navigator.vibrate([30, 20, 30]);
+            }
+        }
+
         function mostrarToast(mensagem, tipo = 'info') {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
-            const icon = toast.querySelector('i');
+            const icon = toast.querySelector('.toast-icon i');
             
-            // Configurar ícone e cor
             const icons = {
                 success: 'fa-check-circle',
                 error: 'fa-exclamation-circle',
@@ -468,7 +728,7 @@
             };
             
             icon.className = `fas ${icons[tipo]}`;
-            toast.style.background = `var(--${tipo})`;
+            toast.className = `toast-modern ${tipo}`;
             toastMessage.textContent = mensagem;
             
             toast.classList.add('show');
@@ -478,7 +738,16 @@
             }, 3000);
         }
 
-        // Service Worker
+        function configurarRealtime() {
+            supabase
+                .channel('items-changes')
+                .on('postgres_changes', 
+                    { event: '*', schema: 'public', table: 'items' },
+                    () => carregarLista()
+                )
+                .subscribe();
+        }
+
         function configurarServiceWorker() {
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/service-worker.js')
@@ -487,18 +756,12 @@
             }
         }
 
-        // Enter para adicionar
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && document.activeElement.id === 'item') {
-                adicionarItem();
-            }
-        });
-
-        // Fechar menu com ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
+                fecharFab();
                 document.getElementById('sideMenu').classList.remove('open');
                 document.getElementById('menuOverlay').classList.remove('open');
+                document.getElementById('bottomSheet').classList.remove('open');
             }
         });
     </script>
